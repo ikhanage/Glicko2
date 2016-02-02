@@ -7,6 +7,12 @@ namespace Glicko2
     {
         public static double VolatilityChange = 0.8;
         public static double ConvergenceTolerance = 0.000001;
+
+        public static double CalculateNewRatingDeviation(double ratingDeviation, double updatedVolatility)
+        {
+            return Math.Sqrt(Math.Pow(ratingDeviation, 2) + Math.Pow(updatedVolatility, 2));
+        }
+
         public static double CalulateNewVolatility(GlickoPlayer competitor, List<GlickoOpponent> opponents)
         {
             var variance = ComputeVariance(competitor, opponents);
@@ -112,6 +118,5 @@ namespace Glicko2
         {
             return 1 / (1 + (Math.Exp(-Gphi(opponent)) * (playerRating - opponent.GlickoRating)));
         }
-
     }
 }
