@@ -20,6 +20,18 @@ namespace Glicko2
             return 1 / Math.Sqrt((1 / Math.Pow(preratingDeviation, 2)) + (1 / variance));
         }
 
+        private static double CaluculateNewRating(GlickoPlayer competitor, List<GlickoOpponent> opponents, double newRatingDeviation)
+        {
+            var sum = 0.0;
+
+            foreach(var opponent in opponents)
+            {
+                sum += Gphi(opponent.Opponent) * (opponent.Result - Edeltaphi(competitor.Rating, opponent.Opponent));
+            }
+
+            return competitor.Rating + ((Math.Pow(newRatingDeviation, 2)) * sum);
+        }
+
         public static double CalculatePreRatingDeviation(double ratingDeviation, double updatedVolatility)
         {
             return Math.Sqrt(Math.Pow(ratingDeviation, 2) + Math.Pow(updatedVolatility, 2));
