@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glicko2", "Glicko2\Glicko2.csproj", "{59FDA92F-40DF-403D-8C76-A25ABC2EB96B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleApp", "TestConsoleApp\TestConsoleApp.csproj", "{F6789E0F-1722-4056-AD63-A64868F75023}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{59FDA92F-40DF-403D-8C76-A25ABC2EB96B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59FDA92F-40DF-403D-8C76-A25ABC2EB96B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59FDA92F-40DF-403D-8C76-A25ABC2EB96B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59FDA92F-40DF-403D-8C76-A25ABC2EB96B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6789E0F-1722-4056-AD63-A64868F75023}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6789E0F-1722-4056-AD63-A64868F75023}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6789E0F-1722-4056-AD63-A64868F75023}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6789E0F-1722-4056-AD63-A64868F75023}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
