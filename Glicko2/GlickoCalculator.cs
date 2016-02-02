@@ -7,12 +7,18 @@ namespace Glicko2
     {
         public static double VolatilityChange = 0.8;
         public static double ConvergenceTolerance = 0.000001;
+        private static double glickoConversion = 173.7178;
 
         public static double CalculateRanking(GlickoPlayer competitor, List<GlickoOpponent> opponents)
         {
 
 
             throw new NotImplementedException();
+        }
+
+        private static double ConvertRatingToOriginal(double glickoRating)
+        {
+            return (glickoConversion * glickoRating) + 1500;
         }
 
         private static double CalculateNewRatingDeviation(double preratingDeviation, double variance)
