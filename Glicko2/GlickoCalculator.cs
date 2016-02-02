@@ -8,7 +8,19 @@ namespace Glicko2
         public static double VolatilityChange = 0.8;
         public static double ConvergenceTolerance = 0.000001;
 
-        public static double CalculateNewRatingDeviation(double ratingDeviation, double updatedVolatility)
+        public static double CalculateRanking(GlickoPlayer competitor, List<GlickoOpponent> opponents)
+        {
+
+
+            throw new NotImplementedException();
+        }
+
+        private static double CalculateNewRatingDeviation(double preratingDeviation, double variance)
+        {
+            return 1 / Math.Sqrt((1 / Math.Pow(preratingDeviation, 2)) + (1 / variance));
+        }
+
+        public static double CalculatePreRatingDeviation(double ratingDeviation, double updatedVolatility)
         {
             return Math.Sqrt(Math.Pow(ratingDeviation, 2) + Math.Pow(updatedVolatility, 2));
         }
