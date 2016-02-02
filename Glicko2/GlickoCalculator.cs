@@ -31,12 +31,34 @@ namespace Glicko2
                 B = VolatilityTransform(competitor.Volatility) - (k * VolatilityChange);
             }
 
-                throw new NotImplementedException();
+            var fA = VolatilityFunction(A, rankingChange, rankDeviation, variance, competitor.Volatility);
+            var fB = VolatilityFunction(B, rankingChange, rankDeviation, variance, competitor.Volatility);
+
+            while (Math.Abs(B - A) > ConvergenceTolerance)
+            {
+                var C = A + ((A - B) * fA / (fB - fA));
+                var fC = VolatilityFunction(C, rankingChange, rankDeviation, variance, competitor.Volatility);
+
+                if ((fC * fB) < 0)
+                {
+                    A = B;
+                    fA = fB;
+                }
+                else
+                {
+                    fA = fA / 2;
+                }
+
+                B = C;
+                fB = fC;
+            }
+
+            return Math.Exp(A / 2);
         }
 
         private static double VolatilityTransform(double volatility)
         {
-            return Math.Log(Math.Pow(volatility, 2);
+            return Math.Log(Math.Pow(volatility, 2));
         }
 
         private static double VolatilityFunction(double x, double rankingChange, double rankDeviation, double variance, double volatility)
