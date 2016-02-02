@@ -23,10 +23,12 @@ namespace TestConsoleApp
             var variance = GlickoCalculator.ComputeVariance(player1, player1Opponents);
             var ratingImprovement = GlickoCalculator.RatingImprovement(player1, player1Opponents, variance);
             var newVolatility = GlickoCalculator.CalulateNewVolatility(player1, player1Opponents);
+            var updatedDeviation = GlickoCalculator.CalculateNewRatingDeviation(player1.GlickoRatingDeviation, newVolatility);
 
             Console.WriteLine(variance);
             Console.WriteLine(ratingImprovement);
             Console.WriteLine(newVolatility);
+            Console.WriteLine(updatedDeviation);
 
             Console.ReadKey();
         }
