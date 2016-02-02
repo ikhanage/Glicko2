@@ -7,8 +7,12 @@ namespace Glicko2
     {
         public static double VolatilityChange = 0.8;
         public static double ConvergenceTolerance = 0.000001;
-        public static double CalulateNewVolatility(GlickoPlayer competitor, double rankingChange, double rankDeviation, double variance)
+        public static double CalulateNewVolatility(GlickoPlayer competitor, List<GlickoOpponent> opponents)
         {
+            var variance = ComputeVariance(competitor, opponents);
+            var rankingChange = RatingImprovement(competitor, opponents, variance);
+            var rankDeviation = competitor.GlickoRatingDeviation;            
+
             var A = VolatilityTransform(competitor.Volatility);
             var a = VolatilityTransform(competitor.Volatility);
             double B = 0.0;
@@ -72,17 +76,16 @@ namespace Glicko2
             return leftNumerater / leftDenominator - rightNumerater / rightDenomintor;
         }
 
-        public static double RatingImprovement(GlickoPlayer competitor, List<GlickoOpponent> opponents)
+        public static double RatingImprovement(GlickoPlayer competitor, List<GlickoOpponent> opponents, double variance)
         {
             double sum = 0;
-            var varience = ComputeVariance(competitor, opponents);
 
             foreach (var opponent in opponents)
             {
                 sum += Gphi(opponent.Opponent) * (opponent.Result - Edeltaphi(competitor.GlickoRating, opponent.Opponent));
             }
 
-            return varience * sum;
+            return variance * sum;
         }
 
         public static double ComputeVariance(GlickoPlayer competitor, List<GlickoOpponent> opponents)
