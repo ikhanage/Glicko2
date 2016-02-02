@@ -16,6 +16,11 @@ namespace Glicko2
             throw new NotImplementedException();
         }
 
+        private static double ConvertRatingDeviationToOriginal(double glickoRatingDeviation)
+        {
+            return glickoConversion * glickoRatingDeviation;
+        }
+
         private static double ConvertRatingToOriginal(double glickoRating)
         {
             return (glickoConversion * glickoRating) + 1500;
