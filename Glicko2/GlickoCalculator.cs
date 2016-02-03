@@ -17,7 +17,7 @@ namespace Glicko2
 
             var preratingDeviation = CalculatePreRatingDeviation(competitor.GlickoRatingDeviation, updatedVolatility);
 
-            
+
             var newRatingDeviation = CalculateNewRatingDeviation(preratingDeviation, variance);
             var newRating = CalculateNewRating(competitor, opponents, newRatingDeviation);
 
@@ -39,7 +39,7 @@ namespace Glicko2
 
         private static double CalculateNewRatingDeviation(double preratingDeviation, double variance)
         {
-            return 1 / Math.Sqrt((1 / Math.Pow(preratingDeviation, 2)) + (1 / variance));
+            return 1 / Math.Pow((1 / Math.Pow(preratingDeviation, 2)) + (1 / variance), -1/2);
         }
 
         private static double CalculateNewRating(GlickoPlayer competitor, List<GlickoOpponent> opponents, double newRatingDeviation)
@@ -48,7 +48,7 @@ namespace Glicko2
 
             foreach(var opponent in opponents)
             {
-                sum += Gphi(opponent.Opponent) * (opponent.Result - Edeltaphi(competitor.GlickoRating, opponent.Opponent));
+                sum += opponent.GPhi * (opponent.Result - Edeltaphi(competitor.GlickoRating, opponent.Opponent));
             }
 
             return competitor.GlickoRating + ((Math.Pow(newRatingDeviation, 2)) * sum);
@@ -63,9 +63,11 @@ namespace Glicko2
         {
             var rankingChange = RatingImprovement(competitor, opponents, variance);
             var rankDeviation = competitor.GlickoRatingDeviation;            
-
+            
             var A = VolatilityTransform(competitor.Volatility);
             var a = VolatilityTransform(competitor.Volatility);
+
+            var k = 1;
             double B = 0.0;
 
             if (Math.Pow(rankingChange, 2) > (Math.Pow(competitor.GlickoRatingDeviation, 2) + variance))
@@ -74,17 +76,16 @@ namespace Glicko2
             }
 
             if (Math.Pow(rankingChange, 2) <= (Math.Pow(competitor.GlickoRatingDeviation, 2) + variance))
-            {
-                var k = 1;
-                var x = VolatilityTransform(competitor.Volatility) - (k * VolatilityChange); //Got here
+            {                
+                var x = VolatilityTransform(competitor.Volatility) - (k * VolatilityChange); 
 
                 while(VolatilityFunction(x, rankingChange, rankDeviation, variance, competitor.Volatility) < 0)
                 {
                     k++;
-                }
-
-                B = VolatilityTransform(competitor.Volatility) - (k * VolatilityChange);
+                }                
             }
+
+            B = VolatilityTransform(competitor.Volatility) - (k * VolatilityChange);
 
             var fA = VolatilityFunction(A, rankingChange, rankDeviation, variance, competitor.Volatility);
             var fB = VolatilityFunction(B, rankingChange, rankDeviation, variance, competitor.Volatility);
@@ -133,7 +134,7 @@ namespace Glicko2
 
             foreach (var opponent in opponents)
             {
-                sum += Gphi(opponent.Opponent) * (opponent.Result - Edeltaphi(competitor.GlickoRating, opponent.Opponent));
+                sum += opponent.GPhi * (opponent.Result - Edeltaphi(competitor.GlickoRating, opponent.Opponent));
             }
 
             return variance * sum;
@@ -144,24 +145,17 @@ namespace Glicko2
             double sum = 0;
             foreach (var opponent in opponents)
             {
-                var opponentsGphi = Gphi(opponent.Opponent);
-
                 var eDeltaPhi = Edeltaphi(competitor.GlickoRating, opponent.Opponent);
 
-                sum += Math.Pow(opponentsGphi, 2) * eDeltaPhi * (1 - eDeltaPhi);
+                sum += Math.Pow(opponent.GPhi, 2) * eDeltaPhi * (1 - eDeltaPhi);
             }
 
             return Math.Pow(sum, -1);
         }
 
-        private static double Gphi(GlickoPlayer opponent)
-        {
-            return 1 / Math.Sqrt(1 + (3 * Math.Pow(opponent.GlickoRatingDeviation, 2) / Math.Pow(Math.PI, 2)));
-        }
-
         private static double Edeltaphi(double playerRating, GlickoPlayer opponent)
         {
-            return 1 / (1 + (-Math.Exp(Gphi(opponent)) * (playerRating - opponent.GlickoRating)));
+            return 1 / (1 + (Math.Exp(-opponent.GPhi * (playerRating - opponent.GlickoRating))));
         }
     }
 }

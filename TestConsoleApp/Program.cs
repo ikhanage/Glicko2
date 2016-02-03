@@ -8,10 +8,10 @@ namespace TestConsoleApp
     {
         static void Main(string[] args)
         {
-            var player1 = new GlickoPlayer("player 1", ratingDeviation: 200);
-            var player2 = new GlickoPlayer("player 2", 1400, 30);
-            var player3 = new GlickoPlayer("player 3", 1550, 100);
-            var player4 = new GlickoPlayer("player 4", 1700, 300);
+            var player1 = new GlickoPlayer(ratingDeviation: 200);
+            var player2 = new GlickoPlayer(1400, 30);
+            var player3 = new GlickoPlayer(1550, 100);
+            var player4 = new GlickoPlayer(1700, 300);
 
             var player1Opponents = new List<GlickoOpponent>
             {
