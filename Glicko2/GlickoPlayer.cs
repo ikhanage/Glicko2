@@ -12,8 +12,8 @@
             Volatility = volatility;
         }
         public string Name { get; set; }
-        public int Rating { get; set; }
-        public int RatingDeviation { get; set; }
+        public double Rating { get; set; }
+        public double RatingDeviation { get; set; }
         public double Volatility { get; set; }
         public double GlickoRating { get { return (Rating - 1500) / glickoConversion; } }
         public double GlickoRatingDeviation { get { return RatingDeviation / glickoConversion; } }

@@ -5,15 +5,26 @@ namespace Glicko2
 {    
     public static class GlickoCalculator
     {
-        public static double VolatilityChange = 0.8;
-        public static double ConvergenceTolerance = 0.000001;
+        private static double VolatilityChange = 0.5;
+        private static double ConvergenceTolerance = 0.000001;
         private static double glickoConversion = 173.7178;
 
-        public static double CalculateRanking(GlickoPlayer competitor, List<GlickoOpponent> opponents)
+        public static GlickoPlayer CalculateRanking(GlickoPlayer competitor, List<GlickoOpponent> opponents)
         {
+            var variance = ComputeVariance(competitor, opponents);
 
+            var updatedVolatility = CalculateNewVolatility(competitor, opponents, variance);
 
-            throw new NotImplementedException();
+            var preratingDeviation = CalculatePreRatingDeviation(competitor.GlickoRatingDeviation, updatedVolatility);
+
+            
+            var newRatingDeviation = CalculateNewRatingDeviation(preratingDeviation, variance);
+            var newRating = CalculateNewRating(competitor, opponents, newRatingDeviation);
+
+            competitor.Rating = ConvertRatingToOriginal(newRating);
+            competitor.RatingDeviation = ConvertRatingDeviationToOriginal(newRatingDeviation);
+
+            return competitor;
         }
 
         private static double ConvertRatingDeviationToOriginal(double glickoRatingDeviation)
@@ -31,26 +42,25 @@ namespace Glicko2
             return 1 / Math.Sqrt((1 / Math.Pow(preratingDeviation, 2)) + (1 / variance));
         }
 
-        private static double CaluculateNewRating(GlickoPlayer competitor, List<GlickoOpponent> opponents, double newRatingDeviation)
+        private static double CalculateNewRating(GlickoPlayer competitor, List<GlickoOpponent> opponents, double newRatingDeviation)
         {
             var sum = 0.0;
 
             foreach(var opponent in opponents)
             {
-                sum += Gphi(opponent.Opponent) * (opponent.Result - Edeltaphi(competitor.Rating, opponent.Opponent));
+                sum += Gphi(opponent.Opponent) * (opponent.Result - Edeltaphi(competitor.GlickoRating, opponent.Opponent));
             }
 
-            return competitor.Rating + ((Math.Pow(newRatingDeviation, 2)) * sum);
+            return competitor.GlickoRating + ((Math.Pow(newRatingDeviation, 2)) * sum);
         }
 
-        public static double CalculatePreRatingDeviation(double ratingDeviation, double updatedVolatility)
+        private static double CalculatePreRatingDeviation(double ratingDeviation, double updatedVolatility)
         {
             return Math.Sqrt(Math.Pow(ratingDeviation, 2) + Math.Pow(updatedVolatility, 2));
         }
 
-        public static double CalulateNewVolatility(GlickoPlayer competitor, List<GlickoOpponent> opponents)
+        private static double CalculateNewVolatility(GlickoPlayer competitor, List<GlickoOpponent> opponents, double variance)
         {
-            var variance = ComputeVariance(competitor, opponents);
             var rankingChange = RatingImprovement(competitor, opponents, variance);
             var rankDeviation = competitor.GlickoRatingDeviation;            
 
@@ -117,7 +127,7 @@ namespace Glicko2
             return leftNumerater / leftDenominator - rightNumerater / rightDenomintor;
         }
 
-        public static double RatingImprovement(GlickoPlayer competitor, List<GlickoOpponent> opponents, double variance)
+        private static double RatingImprovement(GlickoPlayer competitor, List<GlickoOpponent> opponents, double variance)
         {
             double sum = 0;
 
@@ -129,7 +139,7 @@ namespace Glicko2
             return variance * sum;
         }
 
-        public static double ComputeVariance(GlickoPlayer competitor, List<GlickoOpponent> opponents)
+        private static double ComputeVariance(GlickoPlayer competitor, List<GlickoOpponent> opponents)
         {
             double sum = 0;
             foreach (var opponent in opponents)
