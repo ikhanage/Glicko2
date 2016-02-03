@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Glicko2
+﻿namespace Glicko2
 {
     public class GlickoOpponent : GlickoPlayer
     {
         public GlickoPlayer Opponent;
-        public int Result;
+        public double Result;
 
-        public GlickoOpponent(GlickoPlayer opponent, int result) : base(opponent.Rating, opponent.RatingDeviation, opponent.Volatility)
+        public GlickoOpponent(GlickoPlayer opponent, double result) : base(opponent.Rating, opponent.RatingDeviation, opponent.Volatility)
         {
             Result = result;
         }
 
-        public GlickoOpponent(GlickoPlayer opponent, bool won) : base(opponent.Rating, opponent.RatingDeviation, opponent.Volatility)
+        public GlickoOpponent(double rating, double ratingDeviation, double result, double volatility = 0.06) : base(rating, ratingDeviation, volatility)
         {
-            Result = won ? 1 : 0;
+            Result = result;
         }
     }    
 }
