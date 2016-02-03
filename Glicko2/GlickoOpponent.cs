@@ -11,15 +11,13 @@ namespace Glicko2
         public GlickoPlayer Opponent;
         public int Result;
 
-        public GlickoOpponent(GlickoPlayer opponent, int result)
+        public GlickoOpponent(GlickoPlayer opponent, int result) : base(opponent.Rating, opponent.RatingDeviation, opponent.Volatility)
         {
-            Opponent = opponent;
             Result = result;
         }
 
-        public GlickoOpponent(GlickoPlayer opponent, bool won)
+        public GlickoOpponent(GlickoPlayer opponent, bool won) : base(opponent.Rating, opponent.RatingDeviation, opponent.Volatility)
         {
-            Opponent = opponent;
             Result = won ? 1 : 0;
         }
     }    

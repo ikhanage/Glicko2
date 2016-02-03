@@ -6,7 +6,7 @@ namespace Glicko2
     {
         private double glickoConversion = 173.7178;
 
-        public GlickoPlayer(int rating = 1500, int ratingDeviation = 350, double volatility = 0.06)
+        public GlickoPlayer(double rating = 1500, double ratingDeviation = 350, double volatility = 0.06)
         {
             Rating = rating;
             RatingDeviation = ratingDeviation;
