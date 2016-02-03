@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glicko2", "Glicko2\Glicko2.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleApp", "TestConsoleApp\TestConsoleApp.csproj", "{F6789E0F-1722-4056-AD63-A64868F75023}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlickoTests", "GlickoTests\GlickoTests.csproj", "{D70CBA90-0781-4B42-8175-8F635D8319F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F6789E0F-1722-4056-AD63-A64868F75023}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6789E0F-1722-4056-AD63-A64868F75023}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6789E0F-1722-4056-AD63-A64868F75023}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D70CBA90-0781-4B42-8175-8F635D8319F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D70CBA90-0781-4B42-8175-8F635D8319F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D70CBA90-0781-4B42-8175-8F635D8319F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D70CBA90-0781-4B42-8175-8F635D8319F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
