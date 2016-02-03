@@ -1,12 +1,13 @@
-﻿namespace Glicko2
+﻿using System;
+
+namespace Glicko2
 {
     public class GlickoPlayer
     {
         private double glickoConversion = 173.7178;
 
-        public GlickoPlayer(string name, int rating = 1500, int ratingDeviation = 350, double volatility = 0.06)
+        public GlickoPlayer(int rating = 1500, int ratingDeviation = 350, double volatility = 0.06)
         {
-            Name = name;
             Rating = rating;
             RatingDeviation = ratingDeviation;
             Volatility = volatility;
@@ -17,5 +18,6 @@
         public double Volatility { get; set; }
         public double GlickoRating { get { return (Rating - 1500) / glickoConversion; } }
         public double GlickoRatingDeviation { get { return RatingDeviation / glickoConversion; } }
+        public double GPhi { get { return 1 / Math.Sqrt(1 + (3 * Math.Pow(GlickoRatingDeviation, 2) / Math.Pow(Math.PI, 2))); } }
     }
 }
