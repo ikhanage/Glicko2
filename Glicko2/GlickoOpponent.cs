@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Glicko2
 {
-    public class GlickoOpponent
+    public class GlickoOpponent : GlickoPlayer
     {
         public GlickoPlayer Opponent;
         public int Result;
