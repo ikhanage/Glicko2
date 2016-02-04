@@ -66,5 +66,44 @@ namespace GlickoTests
 
             Assert.AreEqual(expectedValue, actualValue);
         }
+
+        [TestMethod]
+        public void GlickoUpdateNoOpponents()
+        {
+            var expectedValue = 0.06;
+
+            var player1Opponents = new List<GlickoOpponent>();
+
+            player1 = GlickoCalculator.CalculateRanking(player1, player1Opponents);
+            var actualValue = player1.Volatility;
+
+            Assert.AreEqual(expectedValue, actualValue);
+        }
+
+        [TestMethod]
+        public void GlickoUpdateRankingNoOpponents()
+        {
+            var expectedValue = 1500;
+
+            var player1Opponents = new List<GlickoOpponent>();
+
+            player1 = GlickoCalculator.CalculateRanking(player1, player1Opponents);
+            var actualValue = Math.Round(player1.Rating, 2);
+
+            Assert.AreEqual(expectedValue, actualValue);
+        }
+
+        [TestMethod]
+        public void GlickoUpdateRatingDeviationNoOpponents()
+        {
+            var expectedValue = 200.27;
+
+            var player1Opponents = new List<GlickoOpponent>();
+
+            player1 = GlickoCalculator.CalculateRanking(player1, player1Opponents);
+            var actualValue = Math.Round(player1.RatingDeviation, 2);
+
+            Assert.AreEqual(expectedValue, actualValue);
+        }
     }
 }

@@ -20,8 +20,11 @@ namespace Glicko2
             var newRatingDeviation = CalculateNewRatingDeviation(preratingDeviation, variance);
             var newRating = CalculateNewRating(competitor, opponents, newRatingDeviation);
 
-            competitor.Rating = ConvertRatingToOriginal(newRating);
             competitor.RatingDeviation = ConvertRatingDeviationToOriginal(newRatingDeviation);
+
+            if (opponents.Count == 0) return competitor;
+
+            competitor.Rating = ConvertRatingToOriginal(newRating);
             competitor.Volatility = updatedVolatility;
 
             return competitor;
