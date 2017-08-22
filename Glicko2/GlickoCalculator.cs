@@ -65,30 +65,28 @@ namespace Glicko2
         private static double CalculateNewVolatility(GlickoPlayer competitor, List<GlickoOpponent> opponents, double variance)
         {
             var rankingChange = RatingImprovement(competitor, opponents, variance);
-            var rankDeviation = competitor.GlickoRatingDeviation;            
+            var rankDeviation = competitor.GlickoRatingDeviation;
             
             var A = VolatilityTransform(competitor.Volatility);
             var a = VolatilityTransform(competitor.Volatility);
 
-            var k = 1;
-            double B = 0.0;
+            double B;
 
             if (Math.Pow(rankingChange, 2) > (Math.Pow(competitor.GlickoRatingDeviation, 2) + variance))
             {
                 B = Math.Log(Math.Pow(rankingChange, 2) - Math.Pow(competitor.GlickoRatingDeviation, 2) - variance);
             }
+            else
+            {
+                var k = 1;
+                double x;
 
-            if (Math.Pow(rankingChange, 2) <= (Math.Pow(competitor.GlickoRatingDeviation, 2) + variance))
-            {                
-                var x = VolatilityTransform(competitor.Volatility) - (k * VolatilityChange); 
-
-                while(VolatilityFunction(x, rankingChange, rankDeviation, variance, competitor.Volatility) < 0)
-                {
+                do {
+                    x = a - (k * VolatilityChange);
                     k++;
-                }                
+                } while (VolatilityFunction(x, rankingChange, rankDeviation, variance, competitor.Volatility) < 0);
+                B = x;
             }
-
-            B = VolatilityTransform(competitor.Volatility) - (k * VolatilityChange);
 
             var fA = VolatilityFunction(A, rankingChange, rankDeviation, variance, competitor.Volatility);
             var fB = VolatilityFunction(B, rankingChange, rankDeviation, variance, competitor.Volatility);
